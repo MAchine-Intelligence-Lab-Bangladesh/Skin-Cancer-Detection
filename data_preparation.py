@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from keras_preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.utils.np_utils import to_categorical
+from tensorflow_core.python.keras.utils.np_utils import to_categorical
 
 
 class data_preparation:
@@ -30,16 +30,16 @@ class data_preparation:
         self.extract("Melanoma")
         feats = np.array(self.data)
         labels = np.array(self.labels)
-
-        np.save("data/feats_train", feats)
-        np.save("data/labels_train", labels)
+        print("np saving...")
+        np.save("data/ISIC_2019_3_class/processed_data/feats_train", feats)
+        np.save("data/ISIC_2019_3_class/processed_data/labels_train", labels)
 
         print("extraction done")
 
     def extract(self, dir_path):
-        path = os.listdir("data/" + dir_path + "/train/")
+        path = os.listdir("data/ISIC_2019_3_class/processed_data/" + dir_path + "/")
         for a in path:
-            image = cv2.imread("data/" + dir_path + "/train/" + a)
+            image = cv2.imread("data/ISIC_2019_3_class/processed_data/" + dir_path + "/" + a)
             image_from_array = Image.fromarray(image, 'RGB')
             size_image = image_from_array.resize((224, 224))
             self.data.append(np.array(size_image))
