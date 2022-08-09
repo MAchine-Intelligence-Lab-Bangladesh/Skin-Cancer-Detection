@@ -1,29 +1,27 @@
 import numpy as np
-
+import pandas as pd
 from data_preparation import data_preparation
+from experiment.Model_MobileNetV2 import mobilenetV2
 
 
 def ISIC_2019_data_preprocess():
-    # df = pd.read_csv("data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_GroundTruth.csv")
-    # mel_list = df[df['MEL'] == 1.0]['image'].tolist()
-    # nv_list = df[df['NV'] == 1.0]['image'].tolist()
-    # bcc_list = df[df['BCC'] == 1.0]['image'].tolist()
+    df = pd.read_csv("data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_GroundTruth.csv")
+    mel_list = df[df['MEL'] == 1.0]['image'].tolist()
+    nv_list = df[df['NV'] == 1.0]['image'].tolist()
+    bcc_list = df[df['BCC'] == 1.0]['image'].tolist()
     #
     a = data_preparation()
-    # a.data_separation(data_list=mel_list, source="data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_Input/",
-    #                   destination="data/ISIC_2019_3_class/processed_data/Melanoma/",
-    #                   extension="MEL")
-    # print("Completed melanoma")
-    # a.data_separation(data_list=nv_list, source="data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_Input/",
-    #                   destination="data/ISIC_2019_3_class/processed_data/Nevus/",
-    #                   extension="NV")
-    # print("completed nevus")
-    # a.data_separation(data_list=bcc_list, source="data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_Input/",
-    #                   destination="data/ISIC_2019_3_class/processed_data/Basal_cell_carcinoma/", extension="BCC")
-    # print("completed bcc")
-    # print(f"melanoma: {len(mel_list)}")
-    # print(f"nv: {len(nv_list)}")
-    # print(f"bcc: {len(bcc_list)}")
+    a.data_separation(data_list=mel_list, source="data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_Input/",
+                      destination="data/ISIC_2019_3_class/processed_data/Melanoma/",
+                      extension="MEL")
+    a.data_separation(data_list=nv_list, source="data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_Input/",
+                      destination="data/ISIC_2019_3_class/processed_data/Nevus/",
+                      extension="NV")
+    a.data_separation(data_list=bcc_list, source="data/ISIC_2019_3_class/raw_data/ISIC_2019_Training_Input/",
+                      destination="data/ISIC_2019_3_class/processed_data/Basal_cell_carcinoma/", extension="BCC")
+    print(f"melanoma: {len(mel_list)}")
+    print(f"nv: {len(nv_list)}")
+    print(f"bcc: {len(bcc_list)}")
 
     a.data_extraction()
 
@@ -45,11 +43,13 @@ def main():
     print("splitting done")
 
     x_train, x_test, y_train, y_test = a.normalize(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test)
-    print("normalization done")
+    print("categorization done")
 
     train_aug = a.image_augmentation()
     print("augmentation done")
 
+    mobilenetV2(train_aug=train_aug,x_train=x_train,x_test=x_test,y_train=y_train,y_test=y_test)
+    print("model saved.")
 
 if __name__ == '__main__':
     main()
