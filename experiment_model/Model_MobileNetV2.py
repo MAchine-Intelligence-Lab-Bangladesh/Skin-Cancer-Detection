@@ -5,14 +5,14 @@ from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from tensorflow.keras.models import load_model
 
-saved_model_path = '.mdl_wts.hdf5'
+saved_checkpoints = '.mdl_wts.hdf5'
+
 
 # https://colab.research.google.com/drive/17s15JY0qg26yawX1htPJGl8yJGvOSXV6#scrollTo=nfiDdL3uJmOg
 def mobilenetV2(train_aug, x_train, x_test, y_train, y_test):
-
-    if os.path.exists(saved_model_path):
+    if os.path.exists(saved_checkpoints):
         print("Existing model found. Loading weights")
-        model = load_model(saved_model_path)
+        model = load_model(saved_checkpoints)
         print("something")
     else:
         conv_base = MobileNetV2(
@@ -34,10 +34,10 @@ def mobilenetV2(train_aug, x_train, x_test, y_train, y_test):
 
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    callbacks = [ModelCheckpoint(saved_model_path, monitor='val_loss', mode='min', verbose=1, save_best_only=True),
+    callbacks = [ModelCheckpoint(saved_checkpoints, monitor='val_loss', mode='min', verbose=1, save_best_only=True),
                  ReduceLROnPlateau(monitor='val_loss', factor=0.3, patience=2, verbose=1, mode='min',
                                    min_lr=0.00000000001)]
-    BS = 64
+    BS = 1
     print("training head...")
     model.fit(
         train_aug.flow(x_train.astype('float32') / 255, y_train, batch_size=BS),

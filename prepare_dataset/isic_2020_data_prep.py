@@ -59,13 +59,13 @@ class data_preparation:
         return feats, labels
 
     def normalize(self, x_train, x_test, y_train, y_test):
-        x_train = x_train.astype('float32') / 255
-        x_test = x_test.astype('float32') / 255
-        train_len = len(x_train)
-        test_len = len(x_test)
+        # x_train = x_train.astype('float32')  
+        # x_test = x_test.astype('float32')
+        # train_len = len(x_train)
+        # test_len = len(x_test)
 
-        y_train = to_categorical(y_train, 3)
-        y_test = to_categorical(y_test, 3)
+        y_train = to_categorical(y_train, 2)
+        y_test = to_categorical(y_test, 2)
         print("normalization done")
         return x_train, x_test, y_train, y_test
 
