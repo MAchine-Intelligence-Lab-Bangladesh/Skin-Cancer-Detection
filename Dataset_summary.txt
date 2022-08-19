@@ -1,0 +1,32 @@
+The common link: https://challenge.isic-archive.com/data/#2019
+The review paper: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8160886/ (published in may 2021)
+
+HAM10000
+    https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7753251/#:~:text=A%20deep%20learning%20model%20is%20proposed%20in%20this%20study%20to,distinguishing%20malignant%20and%20benign%20lesions.
+        Used: AlexNet 
+        Acc: 84%
+    https://reader.elsevier.com/reader/sd/pii/S2352914819302047?token=06F6E62848B38F3053057FF0E6D396F899F4FB89339DAF657CB1CBEC1201BBDF1E880E853E3ADDFF046465AAC04234C3&originRegion=eu-west-1&originCreation=20220809050844
+        Used: Squezenet
+        Acc: 99.77%
+    https://www.hindawi.com/journals/jhe/2022/2196096/#results-and-discussion (march 2022)
+        Used: XceptionNet
+        100% accuracy, 94.05% sensitivity, 97.07% precision, and 95.53% F1-score
+    https://www.ripublication.com/ijaerspl20/ijaerv15n1spl_02.pdf
+    https://www.sciencedirect.com/science/article/pii/S2666827021000177
+        Used:  AlexNet, ResNet, VGG-16, DenseNet, MobileNet-  
+        93.16% of training and 91.93% of testing accuracy
+    https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8662405/
+        Used: XceptioNet
+        Acc: 90.44%
+    https://pure.strath.ac.uk/ws/portalfiles/portal/134360852/Aburaed_etal_ICSPIS_2021_Skin_cancer_classification_model_based_on_VGG19.pdf
+        Used: VGG19
+        ACC:97
+New Dataset link ISIC:
+    https://www.isic-archive.com/#!/topWithHeader/onlyHeaderTop/gallery?filter=%5B%5D
+    ISIC 2020:
+         1. Skin Cancer Disease Detection Using Transfer Learning Technique (June 2022)
+        Used:MobilenetV2
+        Acc: 98
+    2. https://arxiv.org/pdf/2103.12068.pdf (2021)
+        Used: an ensemble-based deep learning approach
+        Auc: 87
