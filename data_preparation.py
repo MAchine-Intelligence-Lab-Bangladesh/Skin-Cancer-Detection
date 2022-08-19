@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from keras_preprocessing.image import ImageDataGenerator
-from tensorflow_core.python.keras.utils.np_utils import to_categorical
+from tensorflow.python.keras.utils.np_utils import to_categorical
 
 
 class data_preparation:
@@ -23,29 +23,29 @@ class data_preparation:
                 print(file)
                 shutil.copy(source + f, destination + file)
 
-    def data_extraction(self):
+    def data_extraction(self, dir_path, item_list):
         print("appended")
-        self.extract("Basal_cell_carcinoma")
-        self.extract("Nevus")
-        self.extract("Melanoma")
+        self.extract(dir_path=dir_path, folder_name=item_list[0])  # "Basal_cell_carcinoma"
+        self.extract(dir_path=dir_path, folder_name=item_list[1])  # "Nevus"
+        self.extract(dir_path=dir_path, folder_name=item_list[2])  # "Melanoma"
         feats = np.array(self.data)
         labels = np.array(self.labels)
         print("np saving...")
-        np.save("data/ISIC_2019_3_class/processed_data/feats_train", feats)
-        np.save("data/ISIC_2019_3_class/processed_data/labels_train", labels)
+        np.save(dir_path + "/feats_train", feats)
+        np.save(dir_path + "/labels_train", labels)
 
         print("extraction done")
 
-    def extract(self, dir_path):
-        path = os.listdir("data/ISIC_2019_3_class/processed_data/" + dir_path + "/")
+    def extract(self, dir_path, folder_name):
+        path = os.listdir(dir_path + "/" + folder_name + "/")
         for a in path:
-            image = cv2.imread("data/ISIC_2019_3_class/processed_data/" + dir_path + "/" + a)
+            image = cv2.imread(dir_path + "/" + folder_name + "/" + a)
             image_from_array = Image.fromarray(image, 'RGB')
             size_image = image_from_array.resize((224, 224))
             self.data.append(np.array(size_image))
-            if dir_path == "Basal_cell_carcinoma":
+            if dir_path == folder_name[0]:
                 self.labels.append(0)
-            elif dir_path == "Nevus":
+            elif dir_path == folder_name[1]:
                 self.labels.append(1)
             else:
                 self.labels.append(2)
