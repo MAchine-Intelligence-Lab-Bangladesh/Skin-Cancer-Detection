@@ -1,7 +1,9 @@
 import os
 import shutil
 
+import cv2
 import numpy as np
+from PIL import Image
 from keras_preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.utils.np_utils import to_categorical
 
@@ -22,21 +24,30 @@ class data_preparation:
                 shutil.copy(source + f, destination + file)
 
     def data_extraction(self, dir_path, item_list):
-        print("appended")
-        for i in item_list:
-            try:
-                self.extract(dir_path=dir_path, folder_name=item_list[i])  # "Basal_cell_carcinoma"
-            except:
-                print(f"problem : {item_list[i]}")
-        # self.extract(dir_path=dir_path, folder_name=item_list[1])  # "Nevus"
-        # self.extract(dir_path=dir_path, folder_name=item_list[2])  # "Melanoma"
-        # feats = np.array(self.data)
-        # labels = np.array(self.labels)
-        # print("np saving...")
-        # np.save(dir_path + "/feats_train", feats)
-        # np.save(dir_path + "/labels_train", labels)
-        #
-        # print("extraction done")
+        for item in item_list:
+            print(f"{item} processing...")
+            self.extract(dir_path=dir_path, folder_name=item)
+            print(f"{item} done")
+        feats = np.array(self.data)
+        labels = np.array(self.labels)
+        print("np saving...")
+        np.save(dir_path + "/feats_train", feats)
+        np.save(dir_path + "/labels_train", labels)
+
+        print("extraction done")
+
+    def extract(self, dir_path, folder_name):
+        path = os.listdir(dir_path + "/" + folder_name + "/")
+        for a in path:
+            image = cv2.imread(dir_path + "/" + folder_name + "/" + a)
+            image_from_array = Image.fromarray(image, 'RGB')
+            size_image = image_from_array.resize((224, 224))
+            self.data.append(np.array(size_image))
+            if folder_name == "benign":
+                self.labels.append(0)
+            else:
+                self.labels.append(1)
+            print(a)
 
     def randomize(self, features, labels):
         s = np.arange(features.shape[0])
