@@ -1,3 +1,4 @@
+import glob
 import os
 import shutil
 
@@ -22,6 +23,22 @@ class data_preparation:
                 file = extension + "_" + str(f)
                 print(file)
                 shutil.copy(source + f, destination + file)
+
+    def data_resize(self, class_name, img_height, img_width):
+        i = 0
+        root_path = "data/isic_2020/resized_data"
+        resized_path = root_path + "/" + str(img_height) + "*" + str(img_width)
+        if not os.path.exists(resized_path):
+            os.mkdir(resized_path)
+        if not os.path.exists(resized_path + "/" + class_name):
+            os.mkdir(resized_path + "/" + class_name)
+        else:
+            print("class and resolution folder are created. ")
+        for image in glob.glob("data/isic_2020/processed_data/" + class_name + "/*.jpg"):
+            image = cv2.imread(image)
+            imgResized = cv2.resize(image, (img_width, img_height))
+            cv2.imwrite(filename=resized_path + "/" + class_name + "image%i.jpg" % i, img=imgResized)
+            print(i)
 
     def data_extraction(self, dir_path, item_list):
         for item in item_list:
