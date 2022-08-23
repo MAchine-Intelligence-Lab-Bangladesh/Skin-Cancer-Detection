@@ -3,7 +3,7 @@ import itertools
 import matplotlib as plt
 import numpy as np
 from keras.saving.save import load_model
-from tensorflow_core.python import confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 class evaluate_mobilenetV2:

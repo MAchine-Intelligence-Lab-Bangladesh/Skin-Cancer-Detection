@@ -37,7 +37,8 @@ class data_preparation:
         for image in glob.glob("data/isic_2020/processed_data/" + class_name + "/*.jpg"):
             image = cv2.imread(image)
             imgResized = cv2.resize(image, (img_width, img_height))
-            cv2.imwrite(filename=resized_path + "/" + class_name + "image%i.jpg" % i, img=imgResized)
+            cv2.imwrite(filename=resized_path + "/" + class_name + "/image%i.jpg" % i, img=imgResized)
+            i += 1
             print(i)
 
     def data_extraction(self, dir_path, item_list):
